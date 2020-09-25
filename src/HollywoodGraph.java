@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class HollywoodGraph {
     private static final double LOAD_FACTOR = 0.75;
-    private Node[] adjacencyList;
+    private Vertex[] adjacencyList;
     private int nodeSize;
     private int edgeSize;
 
@@ -16,7 +16,7 @@ public class HollywoodGraph {
      *  Creates a new graph with the default size of ten.
      */
     public HollywoodGraph() {
-        this.adjacencyList = new Node[10];
+        this.adjacencyList = new Vertex[10];
     }
 
     /**
@@ -38,14 +38,14 @@ public class HollywoodGraph {
         // building adjacency list, assuming each actor has at least one film
         // 1st part - from actor to movies
         // actor is unique when parsing each input line
-        Node fromActor = new Node(array[0], true);
+        Vertex fromActor = new Vertex(array[0], true);
         int actorIndex = getPosition(fromActor);
         adjacencyList[actorIndex] = fromActor;
         nodeSize++;
-        Node current = fromActor;
+        Vertex current = fromActor;
 
         for (int i = 1; i < array.length; i++) {
-            current.setNext(new Node(array[i]));
+            current.setNext(new Vertex(array[i]));
             edgeSize++;
             current = current.getNext();
         }
@@ -65,8 +65,8 @@ public class HollywoodGraph {
         // 2nd part - from movies to actor
         // movies are not unique
         for (int i = 1; i < array.length; i++) {
-            Node nextMovie = new Node(array[i]);
-            Node toActor = new Node(array[0], true);
+            Vertex nextMovie = new Vertex(array[i]);
+            Vertex toActor = new Vertex(array[0], true);
             int moviePosition = getPosition(nextMovie);
             // if the movie is not yet at the position
             if (adjacencyList[moviePosition] == null) {
@@ -82,7 +82,7 @@ public class HollywoodGraph {
             }
             // else the movie is already at the position
             else {
-                Node current2 = adjacencyList[moviePosition];
+                Vertex current2 = adjacencyList[moviePosition];
                 while (current2.getNext() != null) {
                     current2 = current2.getNext();
                 }
@@ -95,14 +95,14 @@ public class HollywoodGraph {
     /**
      * Gets the position of a vertex.
      *
-     * @param node  input vertex
+     * @param vertex  input vertex
      * @return an int  index of the adjacency list
      */
-    private int getPosition(Node node) {
-        int hashCode = node.hashCode();
+    private int getPosition(Vertex vertex) {
+        int hashCode = vertex.hashCode();
         int index = hashCode % adjacencyList.length;
 
-        while (adjacencyList[index] != null && !adjacencyList[index].equals(node)) {
+        while (adjacencyList[index] != null && !adjacencyList[index].equals(vertex)) {
             index = (index + 1) % adjacencyList.length;
         }
 
@@ -114,18 +114,18 @@ public class HollywoodGraph {
      */
     private void rehash() {
         // create a new array with length twice of the previous
-        Node[] newAdjacencyList = new Node[adjacencyList.length * 2];
+        Vertex[] newAdjacencyList = new Vertex[adjacencyList.length * 2];
 
         // iterate through the old array and put each node in the new array
-        for (Node node : adjacencyList) {
+        for (Vertex vertex : adjacencyList) {
             // skip the index if it is empty
-            if (node != null) {
-                int hashCode = node.hashCode();
+            if (vertex != null) {
+                int hashCode = vertex.hashCode();
                 int index = hashCode % newAdjacencyList.length;
-                while (newAdjacencyList[index] != null && !newAdjacencyList[index].equals(node)) {
+                while (newAdjacencyList[index] != null && !newAdjacencyList[index].equals(vertex)) {
                     index = (index + 1) % newAdjacencyList.length;
                 }
-                newAdjacencyList[index] = node;
+                newAdjacencyList[index] = vertex;
             }
         }
         adjacencyList = newAdjacencyList;
@@ -144,7 +144,7 @@ public class HollywoodGraph {
         int index = getIndex(actorSource);
 
         // get the node of the actor if it exists
-        Node actor = null;
+        Vertex actor = null;
         if (index != -1) {
             actor = adjacencyList[index];
         }
@@ -160,18 +160,18 @@ public class HollywoodGraph {
         }
         // if the actor entered does exists
         else {
-            Set<Node> movies;                           // movie set for the new movies
-            Set<Node> actors = new HashSet<>();         // actor set for the new actors
-            Set<Node> visited = new HashSet<>();        // actor and movie set for the visited
+            Set<Vertex> movies;                           // movie set for the new movies
+            Set<Vertex> actors = new HashSet<>();         // actor set for the new actors
+            Set<Vertex> visited = new HashSet<>();        // actor and movie set for the visited
 
             // add the actor source in the actors set
             actors.add(actor);
 
             int counter = 0;
             while (!actors.isEmpty()) {
-                for (Node node : actors) {
-                    map.put(node.getName(), counter);
-                    visited.add(node);
+                for (Vertex vertex : actors) {
+                    map.put(vertex.getName(), counter);
+                    visited.add(vertex);
                 }
 
                 movies = getSet(actors, visited);
@@ -214,13 +214,13 @@ public class HollywoodGraph {
      * @param visited  nodes visited
      * @return a set  the set of nodes associated with the input nodes set
      */
-    private Set<Node> getSet(Set<Node> inputSet, Set<Node> visited) {
-        Set<Node> set = new HashSet<>();
-        for (Node inputNode : inputSet) {
-            for (Node listNode : adjacencyList) {
-                if (listNode != null) {
-                    if (inputNode.getName().equals(listNode.getName())) {
-                        Node current = listNode;
+    private Set<Vertex> getSet(Set<Vertex> inputSet, Set<Vertex> visited) {
+        Set<Vertex> set = new HashSet<>();
+        for (Vertex inputVertex : inputSet) {
+            for (Vertex listVertex : adjacencyList) {
+                if (listVertex != null) {
+                    if (inputVertex.getName().equals(listVertex.getName())) {
+                        Vertex current = listVertex;
                         while (current.getNext() != null) {
                             current = current.getNext();
                             if (!visited.contains(current)) {
@@ -261,7 +261,7 @@ public class HollywoodGraph {
                 System.out.println("[index = " + i + "]: null");
             } else {
                 System.out.print("[index = " + i + "]: " + adjacencyList[i].getName());
-                Node current = adjacencyList[i];
+                Vertex current = adjacencyList[i];
                 while (current.getNext() != null) {
                     System.out.print(" --> " + current.getNext().getName());
                     current = current.getNext();

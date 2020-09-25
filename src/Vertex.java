@@ -6,9 +6,9 @@ import java.util.Objects;
  * @author Bo Zhang
  * @version 1.0
  */
-public class Node {
+public class Vertex {
     private String name;
-    private Node next;
+    private Vertex next;
     private boolean isActor;
 
     /**
@@ -16,7 +16,7 @@ public class Node {
      *
      * @param name  actor or movie name
      */
-    public Node(String name) {
+    public Vertex(String name) {
         this.name = name;
     }
 
@@ -26,7 +26,7 @@ public class Node {
      * @param name  actor or movie name
      * @param isActor  true if this is a actor vertex, false otherwise
      */
-    public Node(String name, boolean isActor) {
+    public Vertex(String name, boolean isActor) {
         this.name = name;
         this.isActor = isActor;
     }
@@ -54,7 +54,7 @@ public class Node {
      *
      * @return next  the next linked vertex
      */
-    public Node getNext() {
+    public Vertex getNext() {
         return next;
     }
 
@@ -63,7 +63,7 @@ public class Node {
      *
      * @param next  the linked next vertex
      */
-    public void setNext(Node next) {
+    public void setNext(Vertex next) {
         this.next = next;
     }
 
@@ -102,8 +102,8 @@ public class Node {
             return false;
         }
 
-        Node node = (Node) other;
-        return Objects.equals(name, node.name);
+        Vertex vertex = (Vertex) other;
+        return Objects.equals(name, vertex.name);
     }
 
     /**
