@@ -156,7 +156,6 @@ public class HollywoodGraph {
         // since there is no network exists either
         if (actor == null) {
             map.put("null", -1);
-            return map;
         }
         // if the actor entered does exists
         else {
@@ -184,8 +183,8 @@ public class HollywoodGraph {
                 counter++;
             }
 
-            return map;
         }
+        return map;
     }
 
     /**
