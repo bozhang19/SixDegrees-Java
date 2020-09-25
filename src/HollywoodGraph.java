@@ -9,7 +9,7 @@ import java.util.*;
 public class HollywoodGraph {
     private static final double LOAD_FACTOR = 0.75;
     private Vertex[] adjacencyList;
-    private int nodeSize;
+    private int vertexSize;
     private int edgeSize;
 
     /**
@@ -41,7 +41,7 @@ public class HollywoodGraph {
         Vertex fromActor = new Vertex(array[0], true);
         int actorIndex = getPosition(fromActor);
         adjacencyList[actorIndex] = fromActor;
-        nodeSize++;
+        vertexSize++;
         Vertex current = fromActor;
 
         for (int i = 1; i < array.length; i++) {
@@ -51,7 +51,7 @@ public class HollywoodGraph {
         }
 
         // check load factor after adding the leading node(actor)
-        if ((nodeSize * 1.0) / adjacencyList.length >= LOAD_FACTOR) {
+        if ((vertexSize * 1.0) / adjacencyList.length >= LOAD_FACTOR) {
             rehash();
         }
     }
@@ -71,12 +71,12 @@ public class HollywoodGraph {
             // if the movie is not yet at the position
             if (adjacencyList[moviePosition] == null) {
                 adjacencyList[moviePosition] = nextMovie;
-                nodeSize++;
+                vertexSize++;
                 nextMovie.setNext(toActor);
                 edgeSize++;
 
                 // check load factor after adding the leading node(actor)
-                if ((nodeSize * 1.0) / adjacencyList.length >= LOAD_FACTOR) {
+                if ((vertexSize * 1.0) / adjacencyList.length >= LOAD_FACTOR) {
                     rehash();
                 }
             }
@@ -240,7 +240,7 @@ public class HollywoodGraph {
      * @return an int  total number of vertices
      */
     public int getVertexSize() {
-        return nodeSize;
+        return vertexSize;
     }
 
     /**
@@ -280,7 +280,7 @@ public class HollywoodGraph {
     public String toString() {
         return "HollywoodGraph{" +
                 "adjacencyList=" + Arrays.toString(adjacencyList) +
-                ", nodeSize=" + nodeSize +
+                ", nodeSize=" + vertexSize +
                 ", edgeSize=" + edgeSize +
                 '}';
     }
