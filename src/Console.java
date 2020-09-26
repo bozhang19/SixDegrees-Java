@@ -18,8 +18,16 @@ public class Console {
      * @throws FileNotFoundException  the exception to throw
      */
     public static void main(String[] args) throws FileNotFoundException {
+        System.out.println("Welcome to the Six-Degrees of Separation Game!\n");
+        System.out.println("Please choose one of the following files:");
+        System.out.println("(enter any other number to test with the small file)");
+        System.out.println("1. 20_actors_100_movies.txt");
+        System.out.println("2. 300_actors_50_movies.txt");
+        System.out.println("3. 900_actors_100_movies.txt");
+
         Scanner scan = new Scanner(System.in);
-        int fileChoice = getFileChoice(scan);
+        int fileChoice = scan.nextInt();
+        scan.nextLine();
 
         HollywoodGraph graph = createGraph(fileChoice);
 
@@ -37,26 +45,6 @@ public class Console {
 
         Map<String, Integer> map = graph.generateActorNumbers(actor);
         printSortedMapInfo(map);
-    }
-
-    /**
-     * Displays the menu and get user input of choice.
-     *
-     * @param scan  the scanner object to read user input
-     * @return an int  the user's choice
-     */
-    public static int getFileChoice(Scanner scan) {
-        System.out.println("Welcome to the Six-Degrees of Separation Game!\n");
-        System.out.println("Please choose one of the following files:");
-        System.out.println("(enter any other number to test with the small file)");
-        System.out.println("1. 20_actors_100_movies.txt");
-        System.out.println("2. 300_actors_50_movies.txt");
-        System.out.println("3. 900_actors_100_movies.txt");
-
-        int choice = scan.nextInt();
-        scan.nextLine();
-
-        return choice;
     }
 
     /**
